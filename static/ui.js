@@ -1,5 +1,19 @@
 const S={session:null,messages:[],entries:[],busy:false,pendingFiles:[],toolCalls:[],activeStreamId:null,currentDir:'.',activeProfile:'default',profileAvatarUrl:'',showHiddenWorkspaceFiles:false};
 
+// ── Performance: debounced resize dispatcher ─────────────────────────────────
+// All resize handlers register through _onResize() so we fire them in a single
+// 150ms-debounced batch instead of N separate synchronous listeners.
+const _resizeHandlers=[];
+let _resizeTimer=null;
+function _onResize(fn){ _resizeHandlers.push(fn); }
+window.addEventListener('resize',()=>{
+  if(_resizeTimer) clearTimeout(_resizeTimer);
+  _resizeTimer=setTimeout(()=>{
+    _resizeTimer=null;
+    for(let i=0;i<_resizeHandlers.length;i++) try{_resizeHandlers[i]();}catch(e){console.warn('[resize]',e);}
+  },150);
+});
+
 function assistantDisplayName(){
   if(S.activeProfile&&S.activeProfile!=='default') return S.activeProfile.charAt(0).toUpperCase()+S.activeProfile.slice(1);
   return window._botName||'Hermes';
@@ -642,24 +656,28 @@ document.addEventListener("loadedmetadata", e=>{
   }
 },true);
 function _initMediaPlaybackObserver(){
-  if(!document.body||window._mediaPlaybackObserver) return;
+  if(window._mediaPlaybackObserver) return;
+  // Scope observer to #messages only — avoids firing on unrelated DOM mutations
+  // (sidebar, panels, dropdowns). Falls back to body only if #messages missing.
+  const root=document.getElementById('messages')||document.body;
+  if(!root) return;
   window._mediaPlaybackObserver=new MutationObserver(records=>{
     for(const rec of records){
       for(const node of rec.addedNodes||[]){
         if(!node||node.nodeType!==1) continue;
-        const media=[];
-        if(node.matches&&node.matches('audio,video')) media.push(node);
-        if(node.querySelectorAll) media.push(...node.querySelectorAll('audio,video'));
-        media.forEach(m=>_applyMediaPlaybackRate(m));
+        if(node.matches&&node.matches('audio,video')){ _applyMediaPlaybackRate(node); continue; }
+        if(node.querySelectorAll){
+          const elems=node.querySelectorAll('audio,video');
+          for(let i=0;i<elems.length;i++) _applyMediaPlaybackRate(elems[i]);
+        }
       }
     }
   });
-  window._mediaPlaybackObserver.observe(document.body,{childList:true,subtree:true});
-  document.querySelectorAll('audio,video').forEach(m=>_applyMediaPlaybackRate(m));
+  window._mediaPlaybackObserver.observe(root,{childList:true,subtree:true});
+  root.querySelectorAll('audio,video').forEach(m=>_applyMediaPlaybackRate(m));
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',_initMediaPlaybackObserver);
 else _initMediaPlaybackObserver();
-setTimeout(_initMediaPlaybackObserver,0);
 
 // ── Ambient provider quota indicator (#1766) ────────────────────────────────
 let _providerQuotaRefreshInFlight=false;
@@ -1610,11 +1628,9 @@ document.addEventListener('click',e=>{
     !e.target.closest('#composerModelDropdown')
   ) closeModelDropdown();
 });
-window.addEventListener('resize',()=>{
+_onResize(()=>{
   const dd=$('composerModelDropdown');
   if(dd&&dd.classList.contains('open')) _positionModelDropdown();
-  // Keep the reasoning dropdown aligned under its chip when the window
-  // resizes while open — same pattern as the model dropdown above.
   const rdd=$('composerReasoningDropdown');
   if(rdd&&rdd.classList.contains('open')&&typeof _positionReasoningDropdown==='function'){
     _positionReasoningDropdown();
@@ -1910,7 +1926,7 @@ document.addEventListener('click', function(e) {
 // visible (e.g. resize crossed the 1100px container threshold while dropdown
 // was open — the wrap is hidden by CSS but the dropdown sibling stays open
 // without an anchor). (#1431)
-window.addEventListener('resize', () => {
+_onResize(()=>{
   const dd = $('composerToolsetsDropdown');
   if (!dd || !dd.classList.contains('open')) return;
   const chip = $('composerToolsetsChip');
@@ -1974,7 +1990,7 @@ document.addEventListener('keydown',function(e){
   closeReasoningDropdown();
 });
 
-window.addEventListener('resize',function(){
+_onResize(()=>{
   if(window.matchMedia && !window.matchMedia('(max-width: 640px)').matches){
     closeMobileComposerConfig();
     closeModelDropdown();
@@ -2282,6 +2298,23 @@ function _clearActivityElapsedTimer(){
   _activityElapsedTimerGroup=null;
 }
 
+// ── Performance: pause elapsed timers when tab is hidden ────────────────────
+// setInterval continues to fire in background tabs, wasting CPU on DOM queries
+// that the user cannot see. Pause both timers on visibilitychange and resume on
+// return so elapsed labels catch up instantly.
+(function(){
+  let _pausedCompression=false, _pausedActivity=false;
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      if(_compressionElapsedTimer){ clearInterval(_compressionElapsedTimer); _compressionElapsedTimer=null; _pausedCompression=true; }
+      if(_activityElapsedTimer){ clearInterval(_activityElapsedTimer); _activityElapsedTimer=null; _pausedActivity=true; }
+    } else {
+      if(_pausedCompression){ _pausedCompression=false; _startCompressionElapsedTimer(); _updateCompressionElapsedTimer(); }
+      if(_pausedActivity){ _pausedActivity=false; if(_activityElapsedTimerGroup){ _startActivityElapsedTimer(_activityElapsedTimerGroup); } }
+    }
+  });
+})();
+
 const _MOBILE_CONFIG_BASE_LABEL='Workspace, model, reasoning, and context settings';
 
 function _setCtxCompressButton(btn,text){
@@ -2513,21 +2546,20 @@ function _settleMessageScrollToBottom(force){
   // position across a few frames while pinned so late layout does not leave the
   // viewport a few lines above the real end. User scroll increments
   // _bottomSettleToken and cancels the delayed passes.
+  //
+  // Optimised: only 2 writes — one immediate RAF pass and one delayed
+  // verification at 200ms — instead of the prior 6-write cascade that caused
+  // layout thrashing.
   const token=++_bottomSettleToken;
-  const passes=[0,16,80,180];
-  passes.forEach(delay=>setTimeout(()=>{
-    if(token!==_bottomSettleToken) return;
-    if(!force && (!_scrollPinned||_recentNonMessageScrollIntent())) return;
-    _setMessageScrollToBottom();
-  },delay));
+  const shouldWrite=()=>token===_bottomSettleToken && (force || (_scrollPinned&&!_recentNonMessageScrollIntent()));
   requestAnimationFrame(()=>{
-    if(token!==_bottomSettleToken) return;
-    if(force || (_scrollPinned&&!_recentNonMessageScrollIntent())) _setMessageScrollToBottom();
-    requestAnimationFrame(()=>{
-      if(token!==_bottomSettleToken) return;
-      if(force || (_scrollPinned&&!_recentNonMessageScrollIntent())) _setMessageScrollToBottom();
-    });
+    if(!shouldWrite()) return;
+    _setMessageScrollToBottom();
   });
+  setTimeout(()=>{
+    if(!shouldWrite()) return;
+    _setMessageScrollToBottom();
+  },200);
 }
 function scrollIfPinned(){
   if(!_scrollPinned) return;
@@ -7743,7 +7775,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&_workspacePrefsMenu) _closeWorkspacePrefsMenu();
 });
-window.addEventListener('resize',()=>{
+_onResize(()=>{
   if(_workspacePrefsMenu&&_workspacePrefsAnchor) _positionWorkspacePrefsMenu(_workspacePrefsAnchor);
 });
 

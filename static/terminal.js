@@ -615,7 +615,7 @@ window.addEventListener('beforeunload',()=>{
   }
 });
 
-window.addEventListener('resize',()=>{
+_onResize(()=>{
   if(!TERMINAL_UI.open)return;
   if(TERMINAL_UI.collapsed){
     _syncTerminalTranscriptSpace('collapsed');

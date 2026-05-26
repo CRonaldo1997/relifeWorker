@@ -1949,7 +1949,7 @@ document.addEventListener('scroll',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape' && _sessionActionMenu) closeSessionActionMenu();
 });
-window.addEventListener('resize',()=>{
+_onResize(()=>{
   if(_sessionActionMenu && _sessionActionAnchor) _positionSessionActionMenu(_sessionActionAnchor);
 });
 

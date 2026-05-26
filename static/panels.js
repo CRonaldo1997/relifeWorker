@@ -4065,7 +4065,7 @@ document.addEventListener('click',e=>{
     !e.target.closest('#composerWsDropdown')
   ) closeWsDropdown();
 });
-window.addEventListener('resize',()=>{
+_onResize(()=>{
   const dd=$('composerWsDropdown');
   if(dd&&dd.classList.contains('open')) _positionComposerWsDropdown();
 });
@@ -4899,7 +4899,7 @@ function closeProfileDropdown() {
 document.addEventListener('click', e => {
   if (!e.target.closest('#profileChipWrap') && !e.target.closest('#profileDropdown')) closeProfileDropdown();
 });
-window.addEventListener('resize',()=>{
+_onResize(()=>{
   const dd=$('profileDropdown');
   if(dd&&dd.classList.contains('open')) _positionProfileDropdown();
 });
