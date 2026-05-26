@@ -1,0 +1,1125 @@
+/*
+ * ── Hermes WebUI — Premium Tech-Blue Light Theme Override ──────────────────
+ * Applied on top of style.css. Overrides the warm-gold light palette with a
+ * clean, modern steel-blue / glassmorphism aesthetic.
+ * Only light mode is overridden; dark mode retains the original palette.
+ * ──────────────────────────────────────────────────────────────────────────
+ */
+
+/* ── 1. FONT SWAP ── */
+:root {
+  font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif !important;
+  scroll-behavior: smooth;
+}
+
+/* ── 2. COLOR PALETTE OVERRIDE — Steel-blue tech theme (light mode) ── */
+:root:not(.dark) {
+  /* Backgrounds */
+  --bg: #F0F4F8;
+  --sidebar: #FFFFFF;
+  --surface: #F7FAFC;
+  --main-bg: rgba(240, 244, 248, 0.6);
+  --code-bg: #EEF2F7;
+  --topbar-bg: rgba(255, 255, 255, 0.95);
+
+  /* Borders */
+  --border: #DCE4EE;
+  --border2: rgba(0, 87, 163, 0.15);
+
+  /* Text */
+  --text: #0D1B2E;
+  --muted: #5A6B7D;
+  --strong: #0D1B2E;
+  --em: #3A5068;
+  --pre-text: #1C3A5E;
+  --code-text: #0057A3;
+  --code-inline-bg: rgba(0, 87, 163, 0.07);
+
+  /* Accent — clean electric blue */
+  --accent: #0057A3;
+  --accent-hover: #0048A0;
+  --accent-bg: rgba(0, 87, 163, 0.08);
+  --accent-bg-strong: rgba(0, 87, 163, 0.16);
+  --accent-text: #0057A3;
+  --blue: #0284C7;
+  --gold: #E8A030;
+
+  /* State colors */
+  --error: #C0392B;
+  --success: #1E7C4C;
+  --warning: #D68900;
+  --info: #0284C7;
+
+  /* Interactive */
+  --input-bg: rgba(0, 87, 163, 0.03);
+  --hover-bg: rgba(0, 87, 163, 0.05);
+  --focus-ring: rgba(0, 87, 163, 0.3);
+  --focus-glow: rgba(0, 87, 163, 0.08);
+  --assistant-bubble-bg: #FFFFFF;
+
+  /* Subtle surfaces */
+  --surface-subtle: rgba(0, 87, 163, 0.025);
+  --surface-subtle-hover: rgba(0, 87, 163, 0.045);
+  --border-subtle: rgba(0, 87, 163, 0.08);
+  --border-muted: rgba(0, 87, 163, 0.12);
+}
+
+:root.dark {
+  --assistant-bubble-bg: #1E2433;
+}
+
+/* ── 3. SIDEBAR & RAIL UPGRADE ── */
+:root:not(.dark) .sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid #DCE4EE;
+  box-shadow: 2px 0 12px rgba(0, 87, 163, 0.04);
+}
+
+:root:not(.dark) .rail {
+  background: #FFFFFF;
+  border-right: 1px solid #DCE4EE;
+}
+
+:root:not(.dark) .rail-btn.active {
+  color: #0057A3;
+  background: rgba(0, 87, 163, 0.08);
+}
+
+:root:not(.dark) .rail-btn.active::before {
+  background: #0057A3;
+}
+
+/* ── 4. APP TITLEBAR ── */
+:root:not(.dark) .app-titlebar {
+  background: #FFFFFF;
+  border-bottom: 1px solid #DCE4EE;
+  box-shadow: 0 1px 0 rgba(0, 87, 163, 0.04);
+}
+
+/* ── 5. SESSION LIST POLISH ── */
+:root:not(.dark) .session-item {
+  color: #5A6B7D;
+  border-radius: 10px;
+}
+
+:root:not(.dark) .session-item:hover {
+  background: rgba(0, 87, 163, 0.05);
+  color: #0D1B2E;
+}
+
+:root:not(.dark) .session-item.active {
+  background: rgba(0, 87, 163, 0.09);
+  color: #0057A3;
+}
+
+:root:not(.dark) .session-item.active .session-title {
+  color: #0057A3;
+  font-weight: 600;
+}
+
+:root:not(.dark) .session-date-header {
+  color: #9DAFC0;
+}
+
+:root:not(.dark) .session-date-header.pinned {
+  color: #0057A3;
+}
+
+/* ── 6. SIDEBAR SEARCH ── */
+:root:not(.dark) .sidebar-search input {
+  background: #F0F4F8;
+  border-color: #DCE4EE;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+:root:not(.dark) .sidebar-search input:focus {
+  border-color: #0057A3;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0, 87, 163, 0.12);
+}
+
+/* ── 7. PANEL HEADERS ── */
+:root:not(.dark) .panel-head {
+  border-bottom: 1px solid #DCE4EE;
+}
+
+/* ── 7a. NEW CHAT FULL-WIDTH BUTTON ── */
+:root:not(.dark) .new-chat-btn-wrap {
+  padding: 10px 10px 6px;
+  flex-shrink: 0;
+}
+
+:root:not(.dark) .new-chat-full-btn {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0284C7 0%, #0057A3 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  box-shadow: 0 2px 12px rgba(2, 132, 199, 0.35);
+}
+
+:root:not(.dark) .new-chat-full-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.55);
+}
+
+:root:not(.dark) .new-chat-full-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 8px rgba(2, 132, 199, 0.3);
+}
+
+:root:not(.dark) .new-chat-full-btn svg {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+
+:root:not(.dark) .new-chat-glow {
+  position: absolute;
+  inset: -40%;
+  width: 180%;
+  height: 180%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.45) 20%,
+      transparent 40%);
+  animation: new-chat-orbit 2.4s linear infinite;
+  pointer-events: none;
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+:root:not(.dark) .new-chat-full-btn:hover .new-chat-glow {
+  animation-duration: 1.4s;
+  filter: brightness(1.3);
+}
+
+@keyframes new-chat-orbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ── 8. MAIN AREA BACKGROUND ── */
+.main {
+  background: transparent !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+}
+
+.main-view, .messages {
+  background: transparent !important;
+}
+
+/* ── 9. MESSAGES — Chat bubble styling ── */
+
+/* ── Role header colors ── */
+:root:not(.dark) .msg-role.user {
+  color: #0057A3;
+}
+
+:root:not(.dark) .msg-role.assistant {
+  color: #5A6B7D;
+}
+
+/* ── Assistant bubble: solid white card with subtle shadow ── */
+:root:not(.dark) .msg-body {
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  background-color: #FFFFFF !important;
+  color: #0D1B2E !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  border-radius: 14px !important;
+  padding: 12px 16px !important;
+}
+
+/* Assistant bubble hover: slightly deeper shadow */
+:root:not(.dark) .assistant-turn:hover .msg-body {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ── User bubble: solid blue with white text ── */
+.msg-row[data-role="user"] .msg-body {
+  background: #0057A3 !important;
+  border: 1px solid #004888 !important;
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
+  color: #FFFFFF !important;
+}
+
+.msg-row[data-role="user"] .msg-body::selection,
+.msg-row[data-role="user"] .msg-body *::selection {
+  background: rgba(0, 0, 0, 0.22) !important;
+  color: #FFFFFF !important;
+}
+
+/* User bubble code blocks */
+.msg-row[data-role="user"] .msg-body code {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.msg-row[data-role="user"] .msg-body a {
+  color: #FFFFFF !important;
+  text-decoration: underline !important;
+}
+
+/* ── Role icon: circular avatar ── */
+:root:not(.dark) .role-icon.user {
+  background: rgba(0, 87, 163, 0.1);
+  color: #0057A3;
+  border-color: rgba(0, 87, 163, 0.2);
+  overflow: hidden;
+}
+
+:root:not(.dark) .role-icon.assistant {
+  background: rgba(90, 107, 125, 0.1);
+  color: #5A6B7D;
+  border-color: rgba(90, 107, 125, 0.2);
+  overflow: hidden;
+}
+
+.role-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+/* ── Inline code in assistant messages ── */
+:root:not(.dark) .msg-body code {
+  color: #0057A3;
+  background: rgba(0, 87, 163, 0.07);
+}
+
+/* ── Code blocks (pre) in assistant messages ── */
+:root:not(.dark) .msg-body pre {
+  background: #EEF2F7;
+  border-color: #DCE4EE;
+  border-radius: 10px !important;
+}
+
+/* ── Prism.js syntax highlighting ── */
+:root:not(.dark) .msg-body pre[class*="language-"],
+:root:not(.dark) .msg-body pre code[class*="language-"],
+:root:not(.dark) .preview-md pre[class*="language-"],
+:root:not(.dark) .preview-md pre code[class*="language-"] {
+  background: #EEF2F7 !important;
+}
+
+/* ── Blockquote left border in tech blue ── */
+:root:not(.dark) .msg-body blockquote,
+:root:not(.dark) .preview-md blockquote {
+  border-left-color: #0057A3;
+}
+
+/* ── Link color in messages ── */
+:root:not(.dark) .msg-body a,
+:root:not(.dark) .preview-md a {
+  color: #0057A3;
+}
+
+/* ── Dark mode: message bubble overrides ── */
+:root.dark .msg-body {
+  background-color: #1E2433 !important;
+  color: #E4E8F0 !important;
+}
+
+:root.dark .msg-row[data-role="user"] .msg-body {
+  background: var(--accent-bg-strong) !important;
+  border-color: var(--accent-bg-strong) !important;
+  color: var(--text) !important;
+}
+
+:root.dark .msg-body code {
+  color: #7BAAE8;
+  background: rgba(123, 170, 232, 0.1);
+}
+
+:root.dark .msg-body pre {
+  background: #252D3D;
+  border-color: #353F52;
+}
+
+:root.dark .role-icon.user {
+  background: rgba(123, 170, 232, 0.15);
+  color: #7BAAE8;
+  border-color: rgba(123, 170, 232, 0.25);
+}
+
+:root.dark .role-icon.assistant {
+  background: rgba(160, 170, 185, 0.12);
+  color: #A0AAB9;
+  border-color: rgba(160, 170, 185, 0.2);
+}
+
+:root.dark .msg-body a {
+  color: #7BAAE8;
+}
+
+:root.dark .msg-body blockquote,
+:root.dark .preview-md blockquote {
+  border-left-color: #7BAAE8;
+}
+
+/* ── 10. EMPTY STATE — match reference screenshot ── */
+:root:not(.dark) .empty-state {
+  background: radial-gradient(ellipse at 50% 30%, rgba(0, 87, 163, 0.06) 0%, transparent 65%);
+}
+
+:root:not(.dark) .empty-state h2 {
+  color: #0D1B2E;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+:root:not(.dark) .empty-state p {
+  color: #5A6B7D;
+}
+
+/* ── Welcome image for empty state ── */
+.empty-welcome-container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  animation: welcome-fade-in 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.empty-welcome-img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 30px rgba(2, 132, 199, 0.25));
+  animation: welcome-float 5s ease-in-out infinite;
+}
+
+@keyframes welcome-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes welcome-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* ── 11. SUGGESTION CHIPS ── */
+:root:not(.dark) .suggestion {
+  background: #FFFFFF;
+  border: 1px solid #DCE4EE;
+  color: #5A6B7D;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root:not(.dark) .suggestion:hover {
+  background: rgba(0, 87, 163, 0.06);
+  border-color: rgba(0, 87, 163, 0.25);
+  color: #0057A3;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(0, 87, 163, 0.12);
+}
+
+/* ── 12. COMPOSER BOX — glassmorphism card ── */
+:root:not(.dark) .composer-wrap {
+  background: rgba(240, 244, 248, 0.4) !important;
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 87, 163, 0.1);
+}
+
+:root:not(.dark) .composer-wrap::before {
+  background: linear-gradient(to bottom, transparent, #F0F4F8);
+}
+
+:root:not(.dark) .composer-box {
+  background: #FFFFFF;
+  border: 1px solid #DCE4EE;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0, 87, 163, 0.06), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+:root:not(.dark) .composer-box:focus-within {
+  border-color: #0057A3;
+  box-shadow: 0 0 0 3px rgba(0, 87, 163, 0.12), 0 2px 12px rgba(0, 87, 163, 0.08);
+}
+
+/* ── 13. SEND BUTTON ── */
+:root:not(.dark) .send-btn {
+  background: #0057A3;
+  box-shadow: 0 2px 8px rgba(0, 87, 163, 0.3);
+}
+
+:root:not(.dark) .send-btn:hover {
+  background: #0048A0;
+  box-shadow: 0 4px 14px rgba(0, 87, 163, 0.4);
+}
+
+/* ── 14. ICON BUTTONS ── */
+:root:not(.dark) .icon-btn:hover {
+  background: rgba(0, 87, 163, 0.07);
+  color: #0057A3;
+}
+
+:root:not(.dark) .panel-icon-btn:hover {
+  background: rgba(0, 87, 163, 0.07);
+  color: #0057A3;
+}
+
+/* ── 15. NAV TABS ── */
+:root:not(.dark) .nav-tab:hover::after {
+  background: #FFFFFF;
+  border-color: rgba(0, 87, 163, 0.2);
+  color: #0057A3;
+  box-shadow: 0 4px 12px rgba(0, 87, 163, 0.12);
+}
+
+:root:not(.dark) .nav-tab.active {
+  color: #0057A3;
+}
+
+:root:not(.dark) .nav-tab.active::before {
+  background: #0057A3;
+}
+
+/* ── 16. RIGHT PANEL ── */
+:root:not(.dark) .rightpanel {
+  background: #FFFFFF;
+  border-left: 1px solid #DCE4EE;
+}
+
+:root:not(.dark) .panel-header {
+  background: #FFFFFF;
+  border-bottom: 1px solid #DCE4EE;
+  color: #9DAFC0;
+}
+
+:root:not(.dark) .file-item:hover {
+  background: rgba(0, 87, 163, 0.05);
+  color: #0D1B2E;
+}
+
+:root:not(.dark) .file-item.active {
+  background: rgba(0, 87, 163, 0.08);
+  color: #0057A3;
+}
+
+/* ── 17. SCROLLBAR POLISH ── */
+:root:not(.dark) ::-webkit-scrollbar-thumb {
+  background: rgba(0, 87, 163, 0.15);
+}
+
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 87, 163, 0.3);
+}
+
+:root:not(.dark) * {
+  scrollbar-color: rgba(0, 87, 163, 0.15) transparent;
+}
+
+/* ── 18. TOOL CARDS ── */
+:root:not(.dark) .tool-card {
+  background: rgba(0, 87, 163, 0.02);
+  border-color: rgba(0, 87, 163, 0.1);
+  border-radius: 8px;
+}
+
+:root:not(.dark) .tool-card:hover {
+  border-color: rgba(0, 87, 163, 0.2);
+}
+
+/* ── 19. DIALOG ── */
+:root:not(.dark) .app-dialog {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(240, 244, 248, 0.99));
+  border-color: rgba(0, 87, 163, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 87, 163, 0.12), 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+:root:not(.dark) .app-dialog-input {
+  background: rgba(0, 87, 163, 0.03);
+  border-color: rgba(0, 87, 163, 0.15);
+}
+
+:root:not(.dark) .app-dialog-input:focus {
+  border-color: #0057A3;
+  box-shadow: 0 0 0 3px rgba(0, 87, 163, 0.12);
+}
+
+:root:not(.dark) .app-dialog-btn.confirm {
+  background: rgba(0, 87, 163, 0.08);
+  border-color: rgba(0, 87, 163, 0.25);
+  color: #0057A3;
+}
+
+:root:not(.dark) .app-dialog-btn.confirm:hover {
+  background: rgba(0, 87, 163, 0.14);
+}
+
+/* ── 20. TOAST NOTIFICATION ── */
+:root:not(.dark) .toast {
+  background: #FFFFFF;
+  border-color: rgba(0, 87, 163, 0.2);
+  color: #0057A3;
+  box-shadow: 0 8px 24px rgba(0, 87, 163, 0.12);
+}
+
+/* ── 21. SETTINGS PANEL ── */
+:root:not(.dark) .settings-main select {
+  background: #F7FAFC;
+  border-color: #DCE4EE;
+}
+
+:root:not(.dark) .settings-main select:focus {
+  border-color: #0057A3;
+  box-shadow: 0 0 0 2px rgba(0, 87, 163, 0.12);
+}
+
+:root:not(.dark) .settings-main input[type="text"],
+:root:not(.dark) .settings-main input[type="password"] {
+  background: #F7FAFC;
+  border-color: #DCE4EE;
+}
+
+:root:not(.dark) .settings-main input:focus {
+  border-color: #0057A3;
+  box-shadow: 0 0 0 3px rgba(0, 87, 163, 0.12);
+}
+
+/* ── 22. SM-BTN ── */
+:root:not(.dark) .sm-btn {
+  border-color: #DCE4EE;
+  color: #5A6B7D;
+}
+
+:root:not(.dark) .sm-btn:hover {
+  background: rgba(0, 87, 163, 0.06);
+  border-color: rgba(0, 87, 163, 0.2);
+  color: #0057A3;
+}
+
+/* ── 23. CRON / TASKS PANEL ── */
+:root:not(.dark) .cron-item {
+  background: #FFFFFF;
+  border-color: #DCE4EE;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+:root:not(.dark) .cron-item:hover {
+  border-color: rgba(0, 87, 163, 0.2);
+}
+
+/* ── 24. APPROVAL CARD ── */
+:root:not(.dark) .approval-inner {
+  background: #FFFFFF;
+  border-color: rgba(0, 87, 163, 0.2);
+  box-shadow: 0 -4px 24px rgba(0, 87, 163, 0.08);
+}
+
+:root:not(.dark) .clarify-inner {
+  background: #FFFFFF;
+  border-color: rgba(0, 87, 163, 0.2);
+}
+
+/* ── 25. PROFILE CHIP ── */
+:root:not(.dark) .profile-chip {
+  color: #0057A3 !important;
+}
+
+/* ── 26. SYNTAX HIGHLIGHTING (light mode) ── */
+:root:not(.dark) .token.keyword,
+:root:not(.dark) .token.atrule,
+:root:not(.dark) .token.attr-value { color: #0057A3; }
+
+:root:not(.dark) .token.function,
+:root:not(.dark) .token.class-name { color: #005A9E; }
+
+:root:not(.dark) .token.string,
+:root:not(.dark) .token.char,
+:root:not(.dark) .token.selector { color: #1E7C4C; }
+
+:root:not(.dark) .token.number,
+:root:not(.dark) .token.boolean { color: #C0392B; }
+
+:root:not(.dark) .token.comment { color: #9DAFC0; font-style: italic; }
+
+/* ── 27. RECONNECT / UPDATE BANNERS ── */
+:root:not(.dark) .reconnect-banner,
+:root:not(.dark) .update-banner {
+  background: #FFFFFF;
+  border-color: rgba(0, 87, 163, 0.2);
+  color: #0057A3;
+  box-shadow: 0 2px 8px rgba(0, 87, 163, 0.08);
+}
+
+:root:not(.dark) .reconnect-btn,
+:root:not(.dark) .update-btn {
+  background: rgba(0, 87, 163, 0.08);
+  border-color: rgba(0, 87, 163, 0.2);
+  color: #0057A3;
+}
+
+/* ── 28. CONTEXT RING ── */
+:root:not(.dark) .ctx-ring-track { stroke: rgba(0, 87, 163, 0.12); }
+:root:not(.dark) .ctx-ring-center {
+  background: #F0F4F8;
+  color: #5A6B7D;
+}
+
+/* ── 29. SELECTION COLOR ── */
+:root:not(.dark) ::selection {
+  background: rgba(0, 87, 163, 0.18);
+  color: #0D1B2E;
+}
+
+/* ── 30. ONBOARDING CARD ── */
+:root:not(.dark) .onboarding-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(240, 244, 248, 0.99));
+  border-color: rgba(0, 87, 163, 0.15);
+  box-shadow: 0 24px 80px rgba(0, 87, 163, 0.1);
+}
+
+:root:not(.dark) .onboarding-sidebar {
+  background: linear-gradient(180deg, rgba(0, 87, 163, 0.06), transparent);
+  border-right-color: #DCE4EE;
+}
+
+/* ── 31. HOVER ELEVATION TRANSITIONS ── */
+:root:not(.dark) .session-item,
+:root:not(.dark) .cron-item,
+:root:not(.dark) .skill-item,
+:root:not(.dark) .suggestion {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 32. BODY BACKGROUND — subtle tech gradient ── */
+:root:not(.dark) body {
+  background: url("chat_bg.png") center/cover no-repeat fixed !important;
+}
+
+/* ── 33. SKIN PICKER OVERRIDES ── */
+:root:not(.dark) .theme-pick-btn:hover,
+:root:not(.dark) .font-size-pick-btn:hover {
+  border-color: #0057A3 !important;
+  background: rgba(0, 87, 163, 0.04) !important;
+}
+
+/* ── 34. WORKSPACE ROW ── */
+:root:not(.dark) .ws-row:hover {
+  background: rgba(0, 87, 163, 0.05);
+  color: #0D1B2E;
+}
+
+:root:not(.dark) .ws-row.active {
+  background: rgba(0, 87, 163, 0.09);
+  border-color: rgba(0, 87, 163, 0.2);
+  color: #0057A3;
+}
+
+/* ── 35. CHIP UPGRADES ── */
+:root:not(.dark) .chip.model {
+  color: #0057A3;
+  border-color: rgba(0, 87, 163, 0.2);
+  background: rgba(0, 87, 163, 0.07);
+}
+
+/* ── 36. PREVIEW PANEL ── */
+:root:not(.dark) .preview-area {
+  background: #FFFFFF;
+}
+
+:root:not(.dark) .preview-code {
+  color: #1C3A5E;
+}
+
+/* ── 37. RESIZE HANDLE ── */
+:root:not(.dark) .resize-handle:hover,
+:root:not(.dark) .resize-handle.dragging {
+  background: #0057A3;
+}
+
+/* ── 38. MAIN VIEW EMPTY STATES ── */
+:root:not(.dark) .main-view-empty-icon {
+  color: rgba(0, 87, 163, 0.3);
+}
+
+:root:not(.dark) .main-view-empty-title {
+  color: #0D1B2E;
+}
+
+:root:not(.dark) .main-view-empty-sub {
+  color: #9DAFC0;
+}
+
+/* ── 39. MICRO-POLISH ── */
+:root:not(.dark) .send-btn:active,
+:root:not(.dark) .app-dialog-btn:active {
+  transform: scale(0.98) translateY(1px);
+}
+
+:root:not(.dark) *:focus-visible {
+  outline: 2px solid #0057A3;
+  outline-offset: 2px;
+}
+
+:root:not(.dark) .profile-opt.active {
+  background: rgba(0, 87, 163, 0.08);
+}
+
+:root:not(.dark) .panel-head-btn:hover {
+  background: rgba(0, 87, 163, 0.07);
+  color: #0057A3;
+}
+
+:root:not(.dark) .panel-head-btn.primary {
+  color: #0057A3;
+  border-color: rgba(0, 87, 163, 0.25);
+}
+
+:root:not(.dark) .sidebar-search-icon {
+  color: #9DAFC0;
+}
+
+:root:not(.dark) .upload-bar {
+  background: linear-gradient(90deg, #0057A3, #0284C7);
+}
+
+/* ── 40. USER AREA — Avatar + Dropdown ── */
+.user-area {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-right: 0;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.user-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px 4px 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background 0.15s;
+  color: inherit;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+:root:not(.dark) .user-avatar-btn:hover { background: rgba(0,87,163,.07); }
+
+.user-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0057A3, #0284C7);
+  color: #fff;
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,87,163,.28);
+  font-family: 'Outfit', system-ui, sans-serif;
+  line-height: 1;
+}
+
+/* Image-based avatar */
+.user-avatar-img {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,87,163,.28);
+}
+
+.user-avatar-btn:hover .user-avatar-img {
+  box-shadow: 0 3px 10px rgba(0,87,163,.38);
+}
+
+.user-name-label {
+  font-size: 13px; font-weight: 500;
+  max-width: 100px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+:root:not(.dark) .user-name-label { color: #0D1B2E; }
+
+/* Dropdown */
+.user-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px); right: 0;
+  min-width: 200px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0,87,163,.14);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(0,87,163,.12), 0 2px 6px rgba(0,0,0,.06);
+  z-index: 9999;
+  animation: dropdownIn 0.15s cubic-bezier(.16,1,.3,1);
+}
+.user-dropdown.open { display: block; }
+
+@keyframes dropdownIn {
+  from { opacity:0; transform:translateY(-6px) scale(.97); }
+  to   { opacity:1; transform:translateY(0)    scale(1);   }
+}
+
+.user-dropdown-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 10px;
+}
+
+.user-dropdown-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0057A3, #0284C7);
+  color: #fff; font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,87,163,.25);
+  font-family: 'Outfit', system-ui, sans-serif;
+  line-height: 1;
+}
+
+/* Image-based dropdown avatar */
+.user-dropdown-avatar-img {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,87,163,.25);
+}
+
+.user-dropdown-info { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.user-dropdown-name { font-size:14px; font-weight:600; color:#0D1B2E; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.user-dropdown-role { font-size:11px; color:#9DAFC0; font-weight:500; }
+
+.user-dropdown-divider { height:1px; background:rgba(0,87,163,.08); margin:4px 2px; }
+
+.user-dropdown-item {
+  display:flex; align-items:center; gap:8px;
+  width:100%; padding:9px 12px;
+  border:none; background:transparent; cursor:pointer;
+  border-radius:9px; font-size:13px; font-family:inherit; color:#5A6B7D;
+  transition:background .14s,color .14s; text-align:left;
+}
+.user-dropdown-item:hover { background:rgba(0,87,163,.06); color:#0D1B2E; }
+.user-dropdown-logout { color:#C0392B; }
+.user-dropdown-logout:hover { background:rgba(192,57,43,.07); color:#C0392B; }
+
+/* Dark mode user area */
+:root.dark .user-dropdown { background:#1E2433; border-color:rgba(255,255,255,.1); box-shadow:0 8px 24px rgba(0,0,0,.3); }
+:root.dark .user-dropdown-name { color:#E8E8F0; }
+:root.dark .user-dropdown-divider { background:rgba(255,255,255,.08); }
+:root.dark .user-dropdown-item { color:#A0AABB; }
+:root.dark .user-dropdown-item:hover { background:rgba(255,255,255,.07); color:#E8E8F0; }
+:root.dark .user-dropdown-logout { color:#e05252; }
+:root.dark .user-dropdown-logout:hover { background:rgba(224,82,82,.1); }
+:root.dark .user-avatar-btn:hover { background:rgba(255,255,255,.07); }
+:root.dark .user-name-label { color:#C8D0DC; }
+
+/* ── Titlebar Profile Button & Dropdown ── */
+.app-titlebar-profile-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer; padding: 2px;
+  border-radius: 50%; transition: box-shadow 0.15s, transform 0.12s;
+  -webkit-app-region: no-drag;
+}
+.app-titlebar-profile-btn:hover {
+  box-shadow: 0 0 0 3px rgba(0,87,163,.15);
+  transform: scale(1.06);
+}
+.app-titlebar-profile-btn:active { transform: scale(0.96); }
+.app-titlebar-profile-avatar {
+  border: 2px solid rgba(0,87,163,.2);
+}
+.app-titlebar-inner { position: relative; }
+
+.titlebar-profile-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px); left: 0;
+  min-width: 200px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0,87,163,.14);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(0,87,163,.12), 0 2px 6px rgba(0,0,0,.06);
+  z-index: 9999;
+  animation: dropdownIn 0.15s cubic-bezier(.16,1,.3,1);
+}
+.titlebar-profile-dropdown.open { display: block; }
+
+.titlebar-profile-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 8px; cursor: pointer;
+  transition: background 0.14s;
+}
+.titlebar-profile-opt:hover { background: rgba(0,87,163,.06); }
+.titlebar-profile-opt.active { background: rgba(0,87,163,.08); }
+.titlebar-profile-opt-avatar {
+  width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+  flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,.1);
+}
+.titlebar-profile-opt-name {
+  font-size: 13px; font-weight: 500; color: #0D1B2E;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  flex: 1; min-width: 0;
+}
+
+/* Dark mode titlebar profile dropdown */
+:root.dark .titlebar-profile-dropdown { background:#1E2433; border-color:rgba(255,255,255,.1); box-shadow:0 8px 24px rgba(0,0,0,.3); }
+:root.dark .titlebar-profile-opt:hover { background:rgba(255,255,255,.07); }
+:root.dark .titlebar-profile-opt.active { background:rgba(255,255,255,.1); }
+:root.dark .titlebar-profile-opt-name { color:#E8E8F0; }
+:root.dark .app-titlebar-profile-btn:hover { box-shadow:0 0 0 3px rgba(255,255,255,.12); }
+:root.dark .app-titlebar-profile-avatar { border-color:rgba(255,255,255,.15); }
+
+/* ── 41. COMMAND DROPDOWN & AUTOCOMPLETE ── */
+.cmd-dropdown {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 87, 163, 0.2) !important;
+  box-shadow: 0 12px 40px rgba(0, 87, 163, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.5) inset !important;
+  border-radius: 12px !important;
+  z-index: 1000 !important;
+}
+
+.cmd-item {
+  border-bottom: 1px solid rgba(0, 87, 163, 0.04);
+  padding: 10px 16px !important;
+  transition: background 0.15s ease;
+}
+
+.cmd-item:last-child {
+  border-bottom: none;
+}
+
+.cmd-item:hover {
+  background: rgba(0, 87, 163, 0.05) !important;
+}
+
+.cmd-item.selected {
+  background: rgba(0, 87, 163, 0.1) !important;
+  outline: 1px solid rgba(0, 87, 163, 0.2) !important;
+  box-shadow: 0 0 12px rgba(0, 87, 163, 0.05);
+}
+
+.cmd-item-name {
+  color: #0057A3 !important;
+  font-weight: 600 !important;
+}
+
+.cmd-item-desc {
+  color: #5A6B7D !important;
+  font-size: 11px;
+}
+
+.cmd-item-badge-skill {
+  background: #0057A3 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+/* Dark mode overrides for dropdown */
+:root.dark .cmd-dropdown {
+  background: rgba(30, 36, 51, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5) !important;
+}
+
+:root.dark .cmd-item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+:root.dark .cmd-item.selected {
+  background: rgba(255, 255, 255, 0.12) !important;
+  outline-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+:root.dark .cmd-item-name {
+  color: #7CB9FF !important;
+}
+
+:root.dark .cmd-item-desc {
+  color: #A0AABB !important;
+}
+
+/* ── 42. SIDEBAR LOGO BAR ── */
+:root:not(.dark) .sidebar-logo-bar {
+  padding: 12px 16px;
+  border-bottom: 1px solid #DCE4EE;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+:root:not(.dark) .sidebar-logo-img {
+  height: 108px;
+  width: auto;
+  object-fit: contain;
+}
+
+:root.dark .sidebar-logo-bar {
+  border-bottom-color: #2A2A45;
+}
+
+/* ── 43. NEW CHAT BUTTON ── */
+:root:not(.dark) .new-chat-full-btn {
+  background: linear-gradient(135deg, var(--accent, #0284c7) 0%, #0057a3 100%);
+  border: 1px solid rgba(255, 255, 255, .15);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(2, 132, 199, 0.35);
+}
+
+:root:not(.dark) .new-chat-full-btn:hover {
+  background: linear-gradient(135deg, var(--accent-hover, #0048A0) 0%, #0048A0 100%);
+  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.55);
+}
+
+/* ── 44. QUEUE CARD ── */
+:root:not(.dark) .queue-card-inner {
+  background: #FFFFFF;
+  border-color: rgba(0, 87, 163, 0.2);
+}
+
+/* ── 45. OFFLINE / AGENT HEALTH BANNERS ── */
+:root:not(.dark) .offline-banner {
+  background: #FFFFFF;
+  border-color: rgba(192, 57, 43, 0.2);
+}
+
+:root:not(.dark) .agent-health-banner {
+  background: #FFFFFF;
+  border-color: rgba(214, 137, 0, 0.2);
+}

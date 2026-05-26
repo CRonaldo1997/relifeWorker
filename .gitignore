@@ -1,0 +1,38 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+
+# Local environment and secrets (keep the example template)
+.env
+.env.*
+!.env.example
+
+# Backup and temporary files
+*.bak
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated screenshots and transient artifacts
+screenshot-*.png
+
+# Generated version file (written by CI builds)
+api/_version.py
+
+# Local AI assistant context
+.claude/
+CLAUDE.md
+AGENTS.local.md
+.cursorrules
+.windsurfrules
+.aider*
+copilot-instructions.md
