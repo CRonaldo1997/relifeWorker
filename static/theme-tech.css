@@ -195,13 +195,18 @@
       transparent 0%,
       rgba(255, 255, 255, 0.45) 20%,
       transparent 40%);
-  animation: new-chat-orbit 2.4s linear infinite;
+  /* Performance: idle state has no animation. The conic-gradient is
+     still an expensive backdrop for surrounding `backdrop-filter` regions
+     when it rotates; only animate when the user actually interacts. */
   pointer-events: none;
+  opacity: 0;
   transition: opacity 0.3s, filter 0.3s;
 }
 
-:root:not(.dark) .new-chat-full-btn:hover .new-chat-glow {
-  animation-duration: 1.4s;
+:root:not(.dark) .new-chat-full-btn:hover .new-chat-glow,
+:root:not(.dark) .new-chat-full-btn:focus-visible .new-chat-glow {
+  opacity: 1;
+  animation: new-chat-orbit 1.4s linear infinite;
   filter: brightness(1.3);
 }
 
@@ -210,13 +215,14 @@
   100% { transform: rotate(360deg); }
 }
 
-/* ── 8. MAIN AREA BACKGROUND ── */
+/* ── 8. MAIN AREA BACKGROUND ──
+   The previous rule declared cover/center/`fixed`/no-repeat without an
+   image, which is a no-op visually but still forces the compositor to
+   treat .main as a fixed-attachment background owner. Simplify to a
+   plain transparent background so the body's painted background shows
+   through without extra compositor layers. */
 .main {
   background: transparent !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
 }
 
 .main-view, .messages {
@@ -405,8 +411,12 @@
   max-width: 260px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 12px 30px rgba(2, 132, 199, 0.25));
-  animation: welcome-float 5s ease-in-out infinite;
+  /* Performance: removed infinite `welcome-float` animation and `drop-shadow`
+     filter entirely. On Linux with software-WebRender, even with
+     `will-change: transform`, the combination of animated transform +
+     filter + 2.4MB body background + composer backdrop-filter still forces
+     per-frame software re-rasterization causing system-wide stutter.
+     Only the one-time fade-in (on the container) is retained. */
 }
 
 @keyframes welcome-fade-in {
@@ -420,14 +430,7 @@
   }
 }
 
-@keyframes welcome-float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
+/* @keyframes welcome-float removed — see .empty-welcome-img comment above */
 
 /* ── 11. SUGGESTION CHIPS ── */
 :root:not(.dark) .suggestion {
@@ -450,7 +453,10 @@
 /* ── 12. COMPOSER BOX — glassmorphism card ── */
 :root:not(.dark) .composer-wrap {
   background: rgba(240, 244, 248, 0.4) !important;
-  backdrop-filter: blur(20px);
+  /* Performance: reduced blur radius from 20px to 10px. With a 2.4MB
+     body background, a 20px blur over the full-width composer was a
+     dominant per-frame compositor cost on Linux/software-WebRender. */
+  backdrop-filter: blur(10px);
   border-top: 1px solid rgba(0, 87, 163, 0.1);
 }
 
@@ -717,9 +723,15 @@
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── 32. BODY BACKGROUND — subtle tech gradient ── */
+/* ── 32. BODY BACKGROUND — subtle tech gradient ──
+   Performance: dropped `background-attachment: fixed` because body has
+   `overflow:hidden` (never scrolls) and the chat_bg.png asset is ~2.4MB.
+   With `fixed`, the browser cannot promote the background to its own
+   compositor layer, so every backdrop-filter region (topbar, composer)
+   forced a full re-rasterization of the 2.4MB image on every animation
+   frame, producing severe page-wide stutter. */
 :root:not(.dark) body {
-  background: url("chat_bg.png") center/cover no-repeat fixed !important;
+  background: url("chat_bg.png") center/cover no-repeat !important;
 }
 
 /* ── 33. SKIN PICKER OVERRIDES ── */

@@ -1247,6 +1247,8 @@
   .msg-media-editor{display:flex;flex-direction:column;gap:8px;width:min(520px,100%);max-width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface);margin:6px 0;}
   .msg-media-editor--audio{min-width:min(360px,100%);}
   .msg-media-player{width:100%;display:block;border-radius:8px;}
+  video::-webkit-media-controls-picture-in-picture-button{display:none !important;}
+  video::--internal-media-controls-picture-in-picture-button{display:none !important;}
   .msg-media-video.msg-media-player{max-height:320px;object-fit:contain;background:#000;border:1px solid var(--border2);}
   .msg-media-audio.msg-media-player{height:36px;background:transparent;}
   .msg-media-meta{display:flex;align-items:center;gap:8px;min-width:0;font-size:11px;color:var(--muted);}
@@ -4477,12 +4479,17 @@ main.main.showing-logs > #mainLogs{display:flex;}
     rgba(255, 255, 255, .55) 15%,
     rgba(255, 255, 255, .08) 25%,
     transparent 45%);
-  animation: new-chat-orbit 2.2s linear infinite;
+  /* Performance: animation runs only on hover so the conic-gradient
+     does not continuously rotate (and force backdrop-filter neighbors
+     to re-blur every frame) when the user is idle. */
   pointer-events: none;
+  opacity: 0;
   transition: opacity .3s, filter .3s;
 }
-.new-chat-full-btn:hover .new-chat-glow {
-  animation-duration: 1.2s;
+.new-chat-full-btn:hover .new-chat-glow,
+.new-chat-full-btn:focus-visible .new-chat-glow {
+  opacity: 1;
+  animation: new-chat-orbit 1.2s linear infinite;
   filter: brightness(1.4);
 }
 @keyframes new-chat-orbit {

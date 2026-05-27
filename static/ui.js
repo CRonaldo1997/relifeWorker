@@ -625,7 +625,7 @@ function _mediaPlayerHtml(kind, src, name, extra=''){
   const safeName=esc(name||'media');
   const safeSrc=esc(src);
   const tag=kind==='video'
-    ? `<video class="msg-media-player msg-media-video" src="${safeSrc}" controls preload="metadata" playsinline title="${safeName}"></video>`
+    ? `<video class="msg-media-player msg-media-video" src="${safeSrc}" controls preload="metadata" playsinline disablepictureinpicture title="${safeName}"></video>`
     : `<audio class="msg-media-player msg-media-audio" src="${safeSrc}" controls preload="metadata" title="${safeName}"></audio>`;
   return `<div class="msg-media-editor msg-media-editor--${kind}" data-media-kind="${kind}">${tag}<div class="msg-media-meta"><span class="msg-media-name">${safeName}</span>${extra}</div>${_mediaSpeedControlsHtml(kind,safeName)}</div>`;
 }
@@ -3194,7 +3194,7 @@ function renderMd(raw){
       const safeName=esc(name||kind||'media');
       const safeSrc=esc(src);
       const tag=kind==='video'
-        ? `<video class="msg-media-player msg-media-video" src="${safeSrc}" controls preload="metadata" playsinline title="${safeName}"></video>`
+        ? `<video class="msg-media-player msg-media-video" src="${safeSrc}" controls preload="metadata" playsinline disablepictureinpicture title="${safeName}"></video>`
         : `<audio class="msg-media-player msg-media-audio" src="${safeSrc}" controls preload="metadata" title="${safeName}"></audio>`;
       return `<div class="msg-media-editor msg-media-editor--${kind}" data-media-kind="${kind}">${tag}<div class="msg-media-meta"><span class="msg-media-name">${safeName}</span></div></div>`;
     };
