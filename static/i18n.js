@@ -7731,7 +7731,7 @@ const LOCALES = {
     clear_conversation_btn_tooltip: '清空此会话中的所有消息',
     editing: '编辑中',
     empty_title: '有什么可以帮您？',
-    empty_subtitle: '随时提问、运行命令、浏览文件或管理定时任务。',
+    empty_subtitle: '欢迎访问寿再数字员工系统，有什么可以帮您？',
     cancel: '取消',
     loading: '加载中…',
     create_job: '创建任务',

@@ -1888,6 +1888,7 @@
     /* Empty state */
     .empty-state h2{font-size:18px;}
     .empty-state p{font-size:13px;}
+    .empty-state p[data-i18n="empty_subtitle"]{font-size:14px !important;white-space:nowrap;}
     .suggestion-grid{max-width:100%!important;}
     .suggestion{font-size:12px;padding:10px 12px;}
   }
